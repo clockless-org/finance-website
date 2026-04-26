@@ -1,0 +1,921 @@
+/* ────────────────────────────────────────────────────────────────
+   Sterling Wealth Advisors · Client Portal · Dashboard
+   Aligned with site.css (--page, --surface, --surface-green, --accent).
+   ──────────────────────────────────────────────────────────────── */
+
+/* Demo pill in the header */
+.pv-demo-pill {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--surface-muted, #ece3d4);
+  border: 1px solid var(--line, #ddd2bf);
+  color: var(--text, #2b241f);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pv-lang-btn {
+  padding: 4px 10px;
+  min-height: 28px;
+  border-radius: 999px;
+  border: 1px solid var(--line, #ddd2bf);
+  background: transparent;
+  color: var(--text, #2b241f);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+.pv-lang-btn:hover {
+  background: var(--text, #2b241f);
+  color: var(--surface, #fffdf9);
+  border-color: var(--text, #2b241f);
+}
+
+/* In-stage note card (journey timeline) */
+.pv-note {
+  margin-top: 16px;
+  padding: 16px 18px;
+  border-left: 3px solid var(--accent, #1d3a30);
+  background: rgba(29, 58, 48, 0.04);
+}
+.pv-note strong {
+  display: block;
+  font-family: var(--serif, "Cormorant Garamond", Georgia, serif);
+  font-size: 1.02rem;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+.pv-note p {
+  margin: 0;
+  color: var(--muted, #786c60);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+/* Property card notes */
+.pv-propcard__notes {
+  margin-top: 10px;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--muted, #786c60);
+  font-style: italic;
+}
+
+/* Neighborhood view */
+.pv-hoodhero {
+  position: relative;
+  aspect-ratio: 21 / 7;
+  min-height: 220px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 24px;
+}
+.pv-hoodhero__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(29, 58, 48, 0.05) 0%, rgba(29, 58, 48, 0.55) 100%);
+}
+.pv-hoodhero__caption {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 22px;
+  color: #f4ecda;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
+}
+.pv-hoodhero__caption span {
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.88;
+}
+.pv-hoodhero__caption strong {
+  font-family: var(--serif, "Cormorant Garamond", Georgia, serif);
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.pv-hoodstats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  padding: 22px;
+  margin: 0 0 28px;
+  background: var(--surface-green, #1d3a30);
+  color: #f4ecda;
+}
+.pv-hoodstat {
+  text-align: center;
+  padding: 4px 6px;
+}
+.pv-hoodstat strong {
+  display: block;
+  font-family: var(--serif, "Cormorant Garamond", Georgia, serif);
+  font-size: 1.7rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.pv-hoodstat span {
+  display: block;
+  margin-top: 4px;
+  color: rgba(244, 236, 218, 0.76);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.pv-hoodgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+.pv-hoodcard {
+  background: var(--surface, #fffdf9);
+  border: 1px solid var(--line, #e4d9cb);
+  display: flex;
+  flex-direction: column;
+}
+.pv-hoodcard__body {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.pv-hoodcard__label {
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted, #786c60);
+  margin-bottom: 8px;
+}
+.pv-hoodcard strong {
+  display: block;
+  font-family: var(--serif, "Cormorant Garamond", Georgia, serif);
+  font-size: 1.05rem;
+  line-height: 1.35;
+  color: var(--text);
+}
+.pv-hoodcard p {
+  margin: 8px 0 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--muted, #786c60);
+}
+
+@media (max-width: 720px) {
+  .pv-hoodstats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+body.portal-body {
+  background: var(--page);
+  color: var(--text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  margin: 0;
+}
+
+.pv-shell { display: flex; flex-direction: column; min-height: 100vh; }
+
+/* Button compact variant — still landing-scale, just narrower */
+.button.button-sm {
+  min-height: 2.5rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+}
+
+/* ── Sticky header: brand row + tab row ─────────────────────── */
+.pv-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(247, 242, 234, 0.94);
+  backdrop-filter: saturate(140%) blur(14px);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.pv-header__top {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 18px 32px 12px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 32px;
+}
+
+.pv-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--text); }
+.pv-brand__mark {
+  width: 44px; height: 44px;
+  border-radius: 999px;
+  background: radial-gradient(120% 120% at 50% 0%, #2d5b4a 0%, #1d3a30 55%, #14271f 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f3e6cf;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  overflow: hidden;
+}
+.pv-brand__text { display: flex; flex-direction: column; gap: 2px; line-height: 1.2; }
+.pv-brand__text strong {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+.pv-brand__kicker {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text-soft);
+}
+.pv-header__mid {
+  min-width: 0;
+  padding-left: 20px;
+  border-left: 1px solid var(--line);
+}
+.pv-brand__tagline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--text-soft);
+  line-height: 1.5;
+  max-width: 440px;
+}
+.pv-header__right { display: flex; align-items: center; gap: 12px; }
+.pv-contact {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.pv-contact:hover { background: var(--surface-green); color: #fff; border-color: var(--surface-green); }
+
+.pv-user {
+  position: relative;
+}
+.pv-user__btn {
+  display: flex; align-items: center; gap: 10px;
+  padding: 4px 14px 4px 4px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-family: inherit;
+  cursor: pointer;
+  color: var(--text);
+  transition: border-color 0.15s ease;
+}
+.pv-user__btn:hover { border-color: var(--line-strong); }
+.pv-user__avatar {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: grid; place-items: center;
+  font-weight: 600; font-size: 12px;
+}
+.pv-user__name { font-size: 13px; font-weight: 600; }
+.pv-user__menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 180px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 12px 32px rgba(32, 59, 49, 0.14);
+  z-index: 30;
+}
+.pv-user__menu button {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  text-align: left;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.pv-user__menu button:hover { background: rgba(32, 59, 49, 0.06); }
+.pv-user__menu button.pv-user__menu-danger { color: #a3332a; }
+.pv-user__menu button.pv-user__menu-danger:hover { background: rgba(163, 51, 42, 0.08); }
+
+.pv-tabs {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.pv-tabs::-webkit-scrollbar { display: none; }
+.pv-tab {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 18px;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.pv-tab:hover { color: var(--text); }
+.pv-tab--active {
+  color: var(--surface-green);
+  border-bottom-color: var(--surface-green);
+}
+.pv-tab__badge {
+  display: inline-grid; place-items: center;
+  min-width: 18px; height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0;
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ── Main ───────────────────────────────────────────────────── */
+.pv-main {
+  flex: 1;
+  max-width: 1180px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 28px 32px 56px;
+  display: flex;
+  flex-direction: column;
+}
+.pv-tabpanel { display: block; }
+.pv-stack { display: flex; flex-direction: column; gap: 22px; }
+.pv-section-head h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(24px, 2.4vw, 28px);
+  letter-spacing: -0.01em;
+  margin: 4px 0 6px;
+}
+.pv-section-head p { color: var(--text-soft); font-size: 15px; line-height: 1.55; margin: 0; max-width: 640px; }
+
+/* ── Journey ────────────────────────────────────────────────── */
+.pv-journey { display: flex; flex-direction: column; gap: 24px; }
+
+/* Status strip removed — stepper now carries state. */
+
+/* ── Journey header ─────────────────────────────────────────── */
+.pv-journey { display: flex; flex-direction: column; gap: 24px; }
+.pv-journey__head { display: flex; flex-direction: column; gap: 6px; max-width: 640px; }
+.pv-journey__head h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(28px, 3vw, 36px);
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  margin: 4px 0 0;
+  color: var(--text);
+}
+.pv-journey__head p { font-size: 15px; color: var(--text-soft); line-height: 1.55; margin: 0; }
+
+.pv-progress { display: flex; flex-direction: column; gap: 6px; margin-bottom: 4px; }
+.pv-progress__bar { height: 3px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.pv-progress__fill { height: 100%; background: var(--surface-green); border-radius: 999px; transition: width 0.8s ease; }
+.pv-progress__meta {
+  display: flex; justify-content: space-between;
+  font-size: 0.54rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text-soft);
+}
+
+/* ── Vertical timeline (left rail + right card) ─────────────── */
+.pv-timeline {
+  list-style: none; margin: 0; padding: 0;
+  position: relative;
+}
+/* Continuous rail line behind the dot column */
+.pv-timeline::before {
+  content: "";
+  position: absolute;
+  left: 88px;
+  top: 10px; bottom: 10px;
+  width: 1.5px;
+  background: var(--line-strong);
+}
+.pv-tl {
+  position: relative;
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 0;
+  padding-bottom: 18px;
+  align-items: flex-start;
+}
+.pv-tl:last-child { padding-bottom: 0; }
+
+.pv-tl__rail {
+  display: flex; align-items: center; gap: 14px;
+  padding-top: 18px;
+  padding-right: 18px;
+  justify-content: flex-end;
+}
+.pv-tl__date {
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text-soft);
+  text-align: right;
+  white-space: nowrap;
+}
+.pv-tl__dot {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--surface);
+  border: 2px solid var(--line-strong);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.pv-tl--done .pv-tl__dot {
+  background: var(--surface-green);
+  border-color: var(--surface-green);
+  color: #f4ecda;
+}
+.pv-tl--active .pv-tl__dot {
+  background: var(--surface);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(184, 131, 84, 0.22);
+}
+.pv-tl--upcoming .pv-tl__dot {
+  background: var(--surface);
+  border-color: var(--line-strong);
+}
+.pv-tl__pulse {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pv-pulse 1.8s ease-in-out infinite;
+}
+@keyframes pv-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(184, 131, 84, 0.4); }
+  50% { box-shadow: 0 0 0 5px rgba(184, 131, 84, 0); }
+}
+
+.pv-tl__card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 24px 28px 26px;
+  display: flex; flex-direction: column; gap: 14px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.pv-tl--active .pv-tl__card {
+  border-color: rgba(184, 131, 84, 0.5);
+  box-shadow: 0 0 0 3px rgba(184, 131, 84, 0.08);
+}
+.pv-tl--upcoming .pv-tl__card { opacity: 0.72; }
+.pv-tl__cardhead { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.pv-tl__title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  margin: 2px 0 0;
+  color: var(--text);
+  line-height: 1.3;
+}
+.pv-tl__summary {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+/* ── Tag pill (stage label + status) ────────────────────────── */
+.pv-tag {
+  display: inline-flex; align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.54rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  background: rgba(32, 59, 49, 0.08);
+  color: var(--surface-green);
+  border: 1px solid rgba(32, 59, 49, 0.14);
+}
+.pv-tag--active {
+  background: var(--accent);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* ── Info grid (key/value inside stage card) ────────────────── */
+.pv-infogrid {
+  margin: 4px 0 0;
+  display: grid; gap: 12px;
+}
+.pv-infogrid__row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 16px;
+  align-items: baseline;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.pv-infogrid__row:last-child { border-bottom: 0; padding-bottom: 0; }
+.pv-infogrid__row dt {
+  font-size: 0.54rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text-soft);
+}
+.pv-infogrid__row dd {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+}
+.pv-infogrid__value--success { color: #047857; }
+.pv-infogrid__value--warning { color: #b45309; }
+.pv-infogrid__value--accent { color: var(--accent); }
+
+/* ── Embedded listings (search stage) ───────────────────────── */
+.pv-embedded-listings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+.pv-embedded-listing {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 12px;
+  padding: 10px;
+  background: var(--page-soft);
+  border: 1px solid var(--line);
+}
+.pv-embedded-listing__img {
+  aspect-ratio: 4/3;
+  background-color: #2d4d41;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.pv-embedded-listing__body { display: flex; flex-direction: column; gap: 2px; }
+.pv-embedded-listing__body strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: 4px;
+}
+.pv-embedded-listing__body > span { font-size: 11.5px; color: var(--text-soft); line-height: 1.4; }
+.pv-embedded-listing__price {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px !important;
+  color: var(--surface-green) !important;
+  margin-top: 2px;
+}
+
+/* ── Docs inside stage card ─────────────────────────────────── */
+.pv-docs { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.pv-docs__row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  transition: background 0.15s ease;
+}
+.pv-docs__row:hover { background: rgba(32, 59, 49, 0.04); }
+.pv-docs__row--action { background: rgba(184, 131, 84, 0.08); }
+.pv-docs__row--action:hover { background: rgba(184, 131, 84, 0.12); }
+.pv-docs__icon {
+  width: 32px; height: 32px;
+  background: rgba(32, 59, 49, 0.06);
+  color: var(--surface-green);
+  display: grid; place-items: center;
+}
+.pv-docs__row--action .pv-docs__icon { background: var(--accent); color: #fff; }
+.pv-docs__body { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.pv-docs__body strong { font-size: 14px; font-weight: 600; color: var(--text); }
+.pv-docs__body span { font-size: 12px; color: var(--text-soft); }
+.pv-docs__action {
+  font-size: 0.54rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 6px 10px;
+  transition: background 0.15s ease;
+}
+.pv-docs__action:hover { background: rgba(184, 131, 84, 0.12); }
+
+/* ── Checklist inside stage card ────────────────────────────── */
+.pv-check { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.pv-check__row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 4px 0;
+}
+.pv-check__mark {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line-strong);
+  background: var(--surface);
+  display: grid; place-items: center;
+  color: #fff;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+.pv-check__row--done .pv-check__mark {
+  background: var(--surface-green);
+  border-color: var(--surface-green);
+}
+.pv-check__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pv-check__body > span:first-child { font-size: 14.5px; color: var(--text); line-height: 1.5; }
+.pv-check__sub { font-size: 12px; color: var(--text-soft); }
+.pv-check__row--done > .pv-check__body > span:first-child {
+  color: var(--text-soft);
+  text-decoration: line-through;
+  text-decoration-color: rgba(45, 36, 29, 0.25);
+}
+
+/* ── Actions row at bottom of stage card ────────────────────── */
+.pv-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+
+
+/* ── Properties grid ─────────────────────────────────────────── */
+.pv-propgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.pv-propcard {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+}
+.pv-propcard:hover { transform: translateY(-2px); border-color: var(--line-strong); box-shadow: 0 10px 28px rgba(32, 59, 49, 0.08); }
+.pv-propcard--accent { border-color: rgba(184, 131, 84, 0.35); }
+.pv-propcard__img {
+  aspect-ratio: 16 / 11;
+  background-color: #2d4d41;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Hero image on each journey-timeline card */
+.pv-tl__photo {
+  aspect-ratio: 16 / 6;
+  min-height: 150px;
+  margin: -24px -28px 18px;
+  background-color: #2d4d41;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.pv-propcard__body { padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 6px; }
+.pv-propcard__body h3 { font-family: var(--font-display); font-weight: 500; font-size: 22px; letter-spacing: -0.01em; margin: 8px 0 0; }
+.pv-propcard__hood { font-size: 13px; color: var(--text-soft); margin: 0 0 8px; }
+.pv-propcard__specs { display: flex; gap: 6px; font-size: 13px; color: var(--text-soft); }
+.pv-propcard__price { margin-top: 10px; font-family: var(--font-display); font-weight: 600; font-size: 20px; letter-spacing: -0.01em; color: var(--surface-green); }
+
+/* ── List rows ──────────────────────────────────────────────── */
+.pv-list {
+  list-style: none; margin: 0; padding: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.pv-list > li + li { border-top: 1px solid var(--line); }
+.pv-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 22px;
+}
+.pv-row--flag { background: linear-gradient(90deg, rgba(184, 131, 84, 0.08), transparent 60%); }
+.pv-row__left { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.pv-row__left strong { font-size: 15px; font-weight: 600; }
+.pv-row__when {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--accent);
+}
+.pv-row__sub { font-size: 13px; color: var(--text-soft); }
+.pv-row__right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
+.pv-row__amount { font-family: var(--font-display); font-weight: 600; font-size: 19px; letter-spacing: -0.01em; color: var(--surface-green); }
+
+/* ── Messages thread ────────────────────────────────────────── */
+.pv-thread {
+  display: flex; flex-direction: column; gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 22px;
+}
+.pv-msg {
+  max-width: 80%;
+  padding: 14px 18px;
+  border-radius: 14px 14px 14px 4px;
+  background: rgba(32, 59, 49, 0.05);
+  border: 1px solid var(--line);
+}
+.pv-msg--you {
+  align-self: flex-end;
+  background: var(--surface-green);
+  color: #f4ecda;
+  border: 0;
+  border-radius: 14px 14px 4px 14px;
+}
+.pv-msg__head { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; margin-bottom: 6px; }
+.pv-msg__head strong { font-weight: 600; }
+.pv-msg__head span { color: var(--text-soft); }
+.pv-msg--you .pv-msg__head span { color: rgba(244, 236, 218, 0.7); }
+.pv-msg p { margin: 0; font-size: 14px; line-height: 1.55; }
+
+/* ── Slim footer ────────────────────────────────────────────── */
+.pv-footer {
+  margin-top: auto;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+  background: transparent;
+}
+.pv-footer__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-soft);
+}
+.pv-footer__inner > span:first-child {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--surface-green);
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 1040px) {
+  .pv-header__top { grid-template-columns: auto 1fr; gap: 20px; }
+  .pv-header__mid { display: none; }
+}
+@media (max-width: 900px) {
+  .pv-header__top { padding: 14px 20px 10px; gap: 12px; }
+  .pv-header__right { gap: 8px; }
+  .pv-contact span { display: none; }
+  .pv-contact { padding: 8px 10px; }
+  .pv-user__name { display: none; }
+  .pv-user__btn { padding: 4px; }
+  .pv-tabs { padding: 0 20px; }
+  .pv-main { padding: 22px 20px 40px; }
+  /* Timeline: collapse rail, show date + dot inline above card */
+  .pv-timeline::before { display: none; }
+  .pv-tl { grid-template-columns: 1fr; gap: 10px; padding-bottom: 16px; }
+  .pv-tl__rail {
+    flex-direction: row; justify-content: flex-start;
+    padding: 0 4px; gap: 10px;
+  }
+  .pv-tl__date { text-align: left; }
+  .pv-tl__card { padding: 20px 22px 22px; }
+  .pv-infogrid__row { grid-template-columns: 1fr; gap: 2px; padding-bottom: 10px; }
+  .pv-embedded-listings { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .pv-row { flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px 18px; }
+  .pv-row__right { width: 100%; justify-content: space-between; }
+  .pv-footer__inner { justify-content: flex-start; gap: 10px; }
+}
+
+/* ─────────── Finance vertical extensions (CLO-38) ─────────── */
+
+/* Strategy hero — replaces the realtor template's neighborhood photo */
+.pv-hoodhero--strategy {
+  background: linear-gradient(135deg, #1d3a30 0%, #29463a 45%, #345447 100%);
+}
+.pv-hoodhero--strategy::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 80% at 18% 20%, rgba(184, 131, 84, 0.18) 0%, transparent 70%),
+    radial-gradient(50% 70% at 82% 80%, rgba(243, 230, 207, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Stage accent bands — replaces stage photo previews */
+.pv-tl__accent {
+  height: 6px;
+  margin: -22px -22px 18px;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+.pv-tl__accent--allocation { background: linear-gradient(90deg, #1d3a30 0%, #345447 100%); }
+.pv-tl__accent--plan { background: linear-gradient(90deg, #b58a5d 0%, #d9b889 100%); }
+.pv-tl__accent--execution { background: linear-gradient(90deg, #29463a 0%, #b58a5d 100%); }
+
+/* Position monogram — replaces the listing photo thumbnail */
+.pv-embedded-listing {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+}
+.pv-embedded-listing__monogram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(120% 120% at 30% 0%, #29463a 0%, #1d3a30 60%, #14271f 100%);
+  color: #f3e6cf;
+  font-family: var(--font-display, "Cormorant Garamond", Georgia, serif);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  font-size: 0.95rem;
+}
+.pv-embedded-listing__role {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted, #786c60);
+  margin-top: 4px;
+}
+
+/* Holdings card monogram — replaces the property photo header */
+.pv-propcard {
+  display: flex;
+  flex-direction: column;
+}
+.pv-propcard__monogram {
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(120% 120% at 30% 0%, #29463a 0%, #1d3a30 60%, #14271f 100%);
+  color: #f3e6cf;
+  font-family: var(--font-display, "Cormorant Garamond", Georgia, serif);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  font-size: 1.6rem;
+}
+.pv-propcard--accent .pv-propcard__monogram {
+  background: radial-gradient(120% 120% at 30% 0%, #d9b889 0%, #b58a5d 55%, #8c6739 100%);
+}
+.pv-propcard__role {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted, #786c60);
+  margin-top: 6px;
+}
