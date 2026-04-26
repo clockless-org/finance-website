@@ -26,6 +26,34 @@ Brown Brothers Harriman / Berkshire annual letter**, transposed to web.
 Aesthetic in one line:
 > _Quiet, considered, ink-on-paper. Numbers do the talking._
 
+## How this differs from CLO-48 Accounting "Ledger Edition"
+
+CLO-48 (Accounting) and CLO-50 (Finance) are adjacent professional
+services. Both got an editorial-serif + tabular-mono + ink-on-paper
+direction, in the same broad family. Calling that out so chairman can
+validate the adjacency or push back.
+
+| Axis | Accounting (CLO-48) | Finance (CLO-50) |
+|---|---|---|
+| Working metaphor | CPA's working journal — IRS notice, ledger entry, audit stamp | Advisor's quarterly letter — Bessemer / BBH / Berkshire annual circular |
+| Palette story | Multi-stamp: oxblood audit red + accountant green + ochre seal on cool ledger paper | Bicolor letter ink: indigo bond + oxidized copper on warm paper |
+| Display face | Newsreader (broad, news-y, masthead serif) | Source Serif 4 (narrow, book-y, academic serif) |
+| Layout DNA | Columnar — `DATE | REF | STAGE | STATUS` general-ledger tables | Editorial — left-weighted hero with mono stat insert; "brief" cards in vertical stack |
+| Tone | Doer's aesthetic — "audit, due, stamp, file" | Planner's aesthetic — "letter, brief, plan, considered" |
+| Signature visual | Front-page masthead + IRS-notice action block + 12-month tax calendar grid | Concentration horizon ribbon + plan ledger column + memo chat |
+| Action affordance | IRS-notice rectangle with double-rule + uppercase `REQUIRED ACTION` header in mono | Inline mono stat under a serif headline; copper underline on `→` link |
+| Color of in-progress | Oxblood audit red `#7a1a1f` (urgency) | Oxidized copper `#9A4B2D` (signature ink) |
+
+Same DNA family (editorial print), but two different print products —
+The Wall Street Journal vs The Economist. If chairman feels they read
+too similar in execution, the Finance fallback direction is **"Iconiq
+Private"** — wider gutters, oversized Söhne or Söhne Breit display,
+near-black palette with one ultra-restrained gold-leaf accent, no
+serif, all sans. Different DNA family entirely (modernist private bank
+rather than printed-letter advisor). Documented at the bottom of this
+brief as the alternative if the Quarterly Letter direction is too close
+to Accounting's Ledger Edition.
+
 ## What this replaces and why
 
 | Inherited from Ray | Why it's wrong for Finance | Replaced by |
@@ -403,3 +431,42 @@ differentiation call. If Turing thinks the visual gap is still small
 - DNS / Cloudflare Pages provisioning (operator handoff).
 - A redesign of `ray-website` or other industry sites — they keep their
   current shared template until each gets its own brief.
+
+## Fallback direction — "Iconiq Private" (only if "Quarterly Letter" reads too close to CLO-48)
+
+Use this only if chairman feels the Quarterly Letter direction sits in
+the same DNA family as CLO-48's Ledger Edition. Documented as a backup,
+not a recommendation.
+
+Reframe Finance away from "printed-letter advisor" and toward
+"modernist private bank":
+
+- **Palette** — pure paper `#FFFFFF` + near-black `#0A0A0A` + a single
+  ultra-restrained gold-leaf accent `#A87E36` (used at ≤ 4% surface
+  coverage). No serif palette; no copper. Drops the "warm paper"
+  warmth entirely.
+- **Typography** — Söhne (paid; or **Inter Display** as free
+  substitute) for ALL headlines and body. **No serif anywhere.** Mono
+  stays IBM Plex Mono for figures.
+- **Layout** — much wider gutters (96–128px desktop), oversize
+  display type (96–144px H1), generous full-bleed black sections that
+  hold a single sentence in 32px white serif-italic, single column —
+  no two-rail academic layout.
+- **Imagery** — no data renderings on landing (those move to portal
+  only). Marketing pages lean on **typographic posters**: a single
+  oversized stat or quote per fold, set in Söhne 96px+ on
+  edge-to-edge black. Reads as Iconiq / Bessemer landing pages from
+  ~2023–2026.
+- **Portal** — keeps the ledger / blotter / brief / statement
+  vocabulary, but in white sans on black. No serif. No copper. The
+  floating chat is a thin black bar at the bottom edge, not a square
+  badge.
+- **Tone** — fewer words, larger type, more confident silence. Chairman
+  hint "intelligent restraint" leans even further.
+
+Why this is filed as fallback rather than first choice: the
+chairman's hint mentions "**refined wealth atelier**" and
+"**understated**" — both pull toward an editorial-print register more
+than a modernist-private-bank register. So Quarterly Letter is the
+better read of the prompt. But if Accounting + Finance side-by-side
+read as siblings, Iconiq Private is the cleanest exit.
