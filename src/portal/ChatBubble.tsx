@@ -15,7 +15,7 @@ interface LocalMsg {
 }
 
 const SEED_MESSAGES: LocalMsg[] = [
-  { id: 's-1', role: 'agent', text: 'Hi Daniel, hi Mira — welcome to the portal. Updated ADV brochure is in your Documents tab, sign by Friday. Anything you want to walk through before our Wednesday call?', createdAt: new Date().toISOString() },
+  { id: 's-1', role: 'agent', text: "Hi Daniel, hi Mira — welcome to the portal. Updated ADV brochure is in your Documents tab; sign by Friday. Anything you want to walk through before our Wednesday call?", createdAt: new Date().toISOString() },
 ]
 
 const CANNED_REPLIES = [
@@ -25,20 +25,20 @@ const CANNED_REPLIES = [
   "Yes — you can log in from any device. For now, this is the shared portal link for both of you.",
 ]
 
-/**
- * Demo chat bubble. The real portal wires this to a backend; here it runs
- * entirely client-side with canned responses so the demo is fully static.
- */
+function formatDraftedAt(d: Date): string {
+  const time = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+  return `Drafted ${time} PT`
+}
+
 export default function ChatBubble({ tenant }: ChatBubbleProps) {
-  const agentName = tenant?.agent_name || 'Maya'
-  const agentAvatar = tenant?.agent_avatar_url || null
-  const agentInitial = (tenant?.agent_name || 'M').charAt(0).toUpperCase()
+  const agentName = tenant?.agent_name?.split(',')[0] || 'Maya'
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<LocalMsg[]>(SEED_MESSAGES)
   const [input, setInput] = useState('')
   const [busy, setBusy] = useState(false)
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const replyIdx = useRef(0)
+  const draftedAt = useRef(formatDraftedAt(new Date()))
 
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight
@@ -69,33 +69,22 @@ export default function ChatBubble({ tenant }: ChatBubbleProps) {
 
   return (
     <>
+      {/* Trigger: 8px-radius black square with mono "MS" glyph (per DESIGN.md). */}
       <button
         className="chat-bubble"
         onClick={() => setOpen(o => !o)}
-        aria-label={open ? 'Close chat' : 'Open chat'}
+        aria-label={open ? 'Close note from Maya' : 'Open note from Maya'}
         aria-expanded={open}
       >
-        {open ? (
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="m18 6-12 12M6 6l12 12"/></svg>
-        ) : (
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        )}
+        {open ? '✕' : 'MS'}
       </button>
 
       {open && (
-        <div className="chat-panel" role="dialog" aria-label={`Chat with ${agentName}`}>
+        <div className="chat-panel" role="dialog" aria-label={`Note from ${agentName}`}>
+          {/* Header: "Note from Maya · Drafted 2:14 PM PT" — mono caption + serif name */}
           <header className="chat-panel-head">
-            <div className="chat-panel-head-avatar" aria-hidden>
-              {agentAvatar ? (
-                <img src={agentAvatar} alt={agentName} referrerPolicy="no-referrer" />
-              ) : (
-                <span>{agentInitial}</span>
-              )}
-            </div>
-            <div>
-              <div className="chat-panel-title">{agentName}</div>
-              <div className="chat-panel-sub">Usually replies within the hour</div>
-            </div>
+            <div className="chat-panel-title">Note from {agentName}</div>
+            <div className="chat-panel-sub">{draftedAt.current}</div>
           </header>
 
           <div ref={scrollRef} className="chat-panel-scroll">
@@ -112,7 +101,7 @@ export default function ChatBubble({ tenant }: ChatBubbleProps) {
               onChange={e => setInput(e.target.value)}
               onKeyDown={onKey}
               rows={1}
-              placeholder="Type a message…"
+              placeholder="Ask Maya — she'll reply or schedule time."
               disabled={busy}
             />
             <button
@@ -121,7 +110,7 @@ export default function ChatBubble({ tenant }: ChatBubbleProps) {
               className="chat-send"
               aria-label="Send"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 11l18-8-8 18-2-7-8-3z"/></svg>
+              →
             </button>
           </footer>
         </div>

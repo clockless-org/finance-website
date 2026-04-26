@@ -8,8 +8,12 @@
 ## Overview
 
 Maya Sterling is a fictional fee-only fiduciary advisor created as the
-Finance industry version of the Clockless concierge-advisor product, built
-on the `ray-website` template (CLO-38). The site serves three purposes:
+Finance industry version of the Clockless concierge-advisor product. The
+site originally inherited the `ray-website` template (CLO-38), then
+received a Finance-specific visual direction in CLO-50 ("The Quarterly
+Letter" — Bessemer / BBH / Berkshire annual letter, transposed to web)
+and was rebuilt to that direction in CLO-71. The site serves three
+purposes:
 
 1. Show prospective financial advisors what a full Clockless engagement
    looks like — landing pages + client portal + floating chat — adapted
@@ -66,5 +70,22 @@ stages, from Discovery through Ongoing Reviews.
 - Real form submission backend (the form posts to a placeholder
   `finance-contact` lead endpoint that may not yet exist on Clockless).
 - DNS / Cloudflare Pages project provisioning — operator handoff.
-- Image assets — all portrait / team avatars are abstract gradient
-  monogram blocks, not photos.
+- Hand-drawn line illustrations for empty states / spot art (deferred to
+  a follow-up; current build uses whitespace where line art would go).
+- Photography of any kind. Portraits and team avatars are mono initials
+  in IBM Plex Mono on paper, with a 1px ink box. Data renderings
+  (allocation rings, concentration horizon ribbon, plan ledger) are the
+  imagery.
+
+## Visual direction
+
+Per `DESIGN.md`:
+
+- **North star** — *The Quarterly Letter*. Editorial serif headlines
+  (Source Serif 4), tabular monospaced figures (IBM Plex Mono) as
+  first-class visual citizens, hairline grid (1px graphite rules, 0–2px
+  radii), bicolor ink palette: Indigo Bond `#1B2A4A` + Oxidized Copper
+  `#9A4B2D` on Paper `#FAFAF7`.
+- **Imagery** — zero photographs; data renderings replace stock art.
+- **Motion** — 240ms default, weighted decel, no scale / no spring.
+  `prefers-reduced-motion` zeroes durations.

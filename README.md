@@ -4,9 +4,11 @@ Financial-advisory industry demo for **Maya Sterling, CFP®**, a fictional
 fee-only fiduciary advisor on the SF Peninsula. This is the Finance vertical
 of the Clockless concierge-advisor template.
 
-Built on the `ray-website` template (CLO-38) — same information architecture,
-visual language, and routing structure, swapped to the financial-planning
-domain:
+Originally built on the `ray-website` template (CLO-38), then rebuilt
+end-to-end against a Finance-specific visual direction in CLO-50 / CLO-71
+("The Quarterly Letter" — Bessemer / BBH / Berkshire annual letter,
+transposed to web). The information architecture and routing structure
+stayed; the visual vessel is now its own thing.
 
 - Persona: Maya Sterling (CFP®, Series 65, SEC RIA via Sterling Wealth
   Advisors LLC, CRD #312587). Fictional.
@@ -26,25 +28,40 @@ to operator before first deploy.
 - Static HTML page structure and routes (`/`, `/about/`, `/services/`,
   `/testimonials/`, `/contact/`)
 - React 19 + Vite portal SPA at `/portal/`
-- Bilingual EN/ZH `data-en`/`data-zh` rendering pipeline (`src/scripts/site.js`)
-- Floating chat-bubble (`public/chat.js`) — internal CSS class prefix renamed
-  `ray-chat` → `site-chat` to match its template-level role
-- Design system tokens in `public/site.css` (cream / forest-green / bronze
-  palette is finance-appropriate and was kept intact)
+- Bilingual EN/ZH `data-en`/`data-zh` rendering pipeline (`public/site.js`)
+- Persona-content scaffolding for the demo client (Daniel & Mira) and the
+  9-stage engagement
+- Floating chat-bubble (`public/chat.js`) — internal CSS class prefix
+  renamed `ray-chat` → `site-chat` and restyled to the new direction
 
 ## What is new for the Finance vertical
 
+- A different visual language end-to-end (see `DESIGN.md`):
+  - Palette — Paper `#FAFAF7` + Ink `#0E1116` + Indigo Bond `#1B2A4A` +
+    Oxidized Copper `#9A4B2D` (drops the Ray cream/green/bronze entirely).
+  - Type — Source Serif 4 (display), Inter (body), IBM Plex Mono
+    (numerals + eyebrows). Drops Cormorant Garamond and Manrope.
+  - Layout — hairline grid (1px graphite rules, 0–2px radii), no
+    box-shadows on content blocks, asymmetric editorial hero.
+  - Imagery — zero photographs; data renderings (allocation ring, 12-quarter
+    concentration horizon, plan ledger) replace stock art and gradient
+    monogram blocks.
 - Persona, license, AUM, firm name, all marketing copy across five public
   pages (EN + ZH)
-- Portal data structures (Dashboard.tsx) — `STAGES`, `HOLDINGS`,
-  `APPOINTMENTS`, `FEES`, `DOCUMENTS`, `STRATEGY_CARDS`, `MESSAGES` — fully
-  re-authored for fee-only advisory work
-- Portal tab schema — `properties → holdings`, `neighborhood → strategy`,
-  `payments → fees`; tab IDs renamed in code so there is no realtor residue
+- Portal data structures (`Dashboard.tsx`) — `STAGES`, `HOLDINGS`,
+  `APPOINTMENTS`, `FEES`, `DOCUMENTS`, `STRATEGY_CARDS`, `MESSAGES` —
+  fully re-authored for fee-only advisory work
+- Per-tab portal vocabulary: Journey → **plan ledger**, Holdings →
+  **position blotter** with concentration horizon, Strategy → **brief
+  stack**, Schedule → **calendar of letters**, Fees → **fee summary
+  statement**, Documents → **file room**, Messages → **memo thread**
+- Floating chat trigger restyled from a round green disk to an 8px black
+  square with mono `MS` glyph, panel header reads `Note from Maya ·
+  Drafted h:mm PT`
 - Chat-bubble canned responses (RSU windows, IPO planning, ADV brochures)
-- Portrait + team avatars switched from photo backgrounds to gradient +
-  monogram blocks (no stock-photo residue from the realtor template)
-- Service-art panels switched from house photos to abstract gradient blocks
+- Shared portal components: `Stat.tsx` (animated mono stat with count-up),
+  `Ledger.tsx` (reusable ledger row), `HorizonChart.tsx` (single-color
+  horizon ribbon + allocation ring)
 
 ## Stack
 

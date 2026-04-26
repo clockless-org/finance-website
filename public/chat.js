@@ -2,10 +2,10 @@
 (function () {
   const STRINGS = {
     en: {
-      title: "Maya Sterling, CFP®",
-      sub: "Fee-Only Fiduciary Advisor · Usually replies within the hour",
-      greeting: "Hi! I'm Maya. I help Bay Area tech families plan equity comp, taxes, retirement, and college funding — fee-only, fiduciary, and always in writing. Ask me anything — RSU windows, IPO planning, allocation, what the portal looks like.",
-      placeholder: "Type a message…",
+      title: "Note from Maya",
+      sub: "Drafted by Maya Sterling, CFP® · Replies within the hour",
+      greeting: "Hi — I help Bay Area tech families plan equity comp, taxes, retirement, and college funding. Fee-only, fiduciary, and always in writing. Ask about RSU windows, IPO planning, allocation, or what the client portal looks like.",
+      placeholder: "Ask Maya — she'll reply or schedule time.",
       replies: [
         "Great question — most households I work with are 6–18 months from a real planning event (IPO, vesting cliff, lifestyle change). Want to jump on a 15-minute discovery call to sanity-check your timeline?",
         "Honest answer: your tax outcome depends on RSU vest dates, ISO exercise timing, and your federal bracket. Send me a quick email at hello@finance.clockless.ai and I'll model it for you.",
@@ -17,10 +17,10 @@
       openLabel: "Open chat with Maya",
     },
     zh: {
-      title: "Maya Sterling, CFP®",
-      sub: "纯佣金受托人顾问 · 通常一小时内回复",
-      greeting: "你好！我是 Maya，专门帮湾区科技家庭做股权薪酬、税务、退休与子女教育金的规划——纯佣金、受托人、所有结论都写下来。RSU 窗口、IPO 规划、资产配置、门户长什么样——随便问。",
-      placeholder: "输入消息…",
+      title: "来自 Maya 的一则备忘",
+      sub: "由 Maya Sterling, CFP® 起草 · 通常一小时内回复",
+      greeting: "你好——我专门帮湾区科技家庭做股权薪酬、税务、退休与子女教育金的规划。纯佣金、受托人、所有结论都写下来。RSU 窗口、IPO 规划、资产配置、门户长什么样——随时问。",
+      placeholder: "问 Maya —— 她会回复或安排时间。",
       replies: [
         "好问题——我合作的多数家庭距离真正的规划事件（IPO、解禁断崖、生活方式转变）还有 6 至 18 个月。要不要先约一个 15 分钟的初谈电话，帮你把时间线捋一遍？",
         "诚实地说，你的税务结果取决于 RSU 解禁日、ISO 行权时机以及联邦税档。写封邮件到 hello@finance.clockless.ai，我帮你建模。",

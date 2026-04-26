@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { PortalMember, PortalTenantIdentity } from './api'
+import HorizonChart from './components/HorizonChart'
 import './dashboard.css'
 
 type Lang = 'en' | 'zh'
@@ -484,22 +485,24 @@ const TABS: { id: TabId; i18nKey: TKey; badge?: number }[] = [
   { id: 'messages', i18nKey: 'tab.messages' },
 ]
 
-/* ─────────────── Journey — vertical timeline ─────────────── */
+/* ─────────────── Journey — Plan ledger ─────────────── */
 function JourneyView({ member, lang }: { member: PortalMember; lang: Lang }) {
   const displayName = member.name || 'Daniel & Mira'
   const done = STAGES.filter(s => s.status === 'done').length
   const pct = Math.round(((done + 0.5) / STAGES.length) * 100)
   const nextTag = STAGES[done] ? tl(lang, STAGES[done].tag) : ''
   return (
-    <div className="pv-journey">
-      <header className="pv-journey__head">
-        <span className="section-label">{t(lang, 'journey.eyebrow')}</span>
+    <section className="pv-journey">
+      <header className="pv-section-head">
+        <span className="pv-section-head__eyebrow">{t(lang, 'journey.eyebrow')}</span>
         <h1>{displayName}{t(lang, 'journey.title.suffix')}</h1>
+        <div className="pv-section-head__rule" />
         <p>{t(lang, 'journey.subtitle')}</p>
       </header>
-      <div className="pv-progress">
+
+      <div className="pv-progress" aria-label={`${pct}% complete`}>
         <div className="pv-progress__bar">
-          <div className="pv-progress__fill" style={{ width: `${pct}%` }} />
+          <span className="pv-progress__fill" style={{ width: `${pct}%`, display: 'block', height: '1px', background: 'var(--copper)' }} />
         </div>
         <div className="pv-progress__meta">
           <span>{pct}{t(lang, 'journey.complete')}</span>
@@ -507,35 +510,27 @@ function JourneyView({ member, lang }: { member: PortalMember; lang: Lang }) {
         </div>
       </div>
 
-      <ol className="pv-timeline">
-        {STAGES.map(stage => (
-          <li key={stage.id} className={`pv-tl pv-tl--${stage.status}`}>
-            <aside className="pv-tl__rail">
-              <span className="pv-tl__date">{tl(lang, stage.dateLabel)}</span>
-              <span className="pv-tl__dot">
-                {stage.status === 'done'
-                  ? <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 5 5L20 7"/></svg>
-                  : stage.status === 'active'
-                    ? <span className="pv-tl__pulse" />
-                    : null}
-              </span>
-            </aside>
-            <article className="pv-tl__card">
-              {stage.accent && (
-                <div className={`pv-tl__accent pv-tl__accent--${stage.accent}`} aria-hidden />
+      <ol className="pv-ledger">
+        {STAGES.map(stage => {
+          const glyph = stage.status === 'done' ? '✓' : stage.status === 'active' ? '●' : '─'
+          return (
+            <li key={stage.id} className={`pv-ledger__row pv-ledger__row--${stage.status}`}>
+              <span className="pv-ledger__date">{tl(lang, stage.dateLabel)}</span>
+              <div>
+                <h3 className="pv-ledger__title">{tl(lang, stage.title)}</h3>
+                {stage.summary && <p className="pv-ledger__sub">{tl(lang, stage.summary)}</p>}
+              </div>
+              <span className="pv-ledger__status" aria-hidden>{glyph}</span>
+              {stage.content.length > 0 && (
+                <div className="pv-ledger__detail">
+                  {stage.content.map((block, i) => <ContentBlock key={i} block={block} lang={lang} />)}
+                </div>
               )}
-              <header className="pv-tl__cardhead">
-                <span className="pv-tag">{tl(lang, stage.tag)}</span>
-                {stage.status === 'active' && <span className="pv-tag pv-tag--active">{t(lang, 'journey.current')}</span>}
-              </header>
-              <h2 className="pv-tl__title">{tl(lang, stage.title)}</h2>
-              {stage.summary && <p className="pv-tl__summary">{tl(lang, stage.summary)}</p>}
-              {stage.content.map((block, i) => <ContentBlock key={i} block={block} lang={lang} />)}
-            </article>
-          </li>
-        ))}
+            </li>
+          )
+        })}
       </ol>
-    </div>
+    </section>
   )
 }
 
@@ -552,18 +547,16 @@ function ContentBlock({ block, lang }: { block: StageContent; lang: Lang }) {
       </dl>
     )
     case 'positions': return (
-      <div className="pv-embedded-listings">
+      <div className="pv-positions">
         {block.items.map((p, i) => (
-          <div key={i} className="pv-embedded-listing">
-            <div className="pv-embedded-listing__monogram" aria-hidden>{p.ticker.slice(0, 4)}</div>
-            <div className="pv-embedded-listing__body">
-              {p.status && <span className="pv-tag pv-tag--active">{tl(lang, p.status)}</span>}
-              <strong>{p.ticker}</strong>
-              <span>{tl(lang, p.account)}</span>
-              <span>{p.shares} · {lang === 'zh' ? '成本' : 'basis'} {p.basis}</span>
-              <span className="pv-embedded-listing__price">{p.market}</span>
-              {p.role && <span className="pv-embedded-listing__role">{tl(lang, p.role)}</span>}
+          <div key={i} className="pv-position">
+            <span className="pv-position__ticker">{p.ticker}</span>
+            <div className="pv-position__body">
+              <span className="pv-position__account">{tl(lang, p.account)}</span>
+              <span className="pv-position__meta">{p.shares} · {lang === 'zh' ? '成本' : 'basis'} {p.basis}</span>
+              {p.role && <span className="pv-position__role">{tl(lang, p.role)}</span>}
             </div>
+            <span className="pv-position__market">{p.market}</span>
           </div>
         ))}
       </div>
@@ -572,9 +565,7 @@ function ContentBlock({ block, lang }: { block: StageContent; lang: Lang }) {
       <ul className="pv-docs">
         {block.items.map((d, i) => (
           <li key={i} className={`pv-docs__row ${d.action ? 'pv-docs__row--action' : ''}`}>
-            <span className="pv-docs__icon" aria-hidden>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
-            </span>
+            <span className="pv-docs__pages">{lang === 'zh' ? d.size.zh : d.size.en}</span>
             <div className="pv-docs__body">
               <strong>{tl(lang, d.name)}</strong>
               <span>{tl(lang, d.size)}</span>
@@ -588,9 +579,7 @@ function ContentBlock({ block, lang }: { block: StageContent; lang: Lang }) {
       <ul className="pv-check">
         {block.items.map((it, i) => (
           <li key={i} className={`pv-check__row ${it.done ? 'pv-check__row--done' : ''}`}>
-            <span className="pv-check__mark" aria-hidden>
-              {it.done && <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 5 5L20 7"/></svg>}
-            </span>
+            <span className="pv-check__mark" aria-hidden>{it.done ? '✓' : ''}</span>
             <div className="pv-check__body">
               <span>{tl(lang, it.label)}</span>
               {it.sub && <span className="pv-check__sub">{tl(lang, it.sub)}</span>}
@@ -615,67 +604,109 @@ function ContentBlock({ block, lang }: { block: StageContent; lang: Lang }) {
   }
 }
 
-/* ─────────────── Other tabs ─────────────── */
+/* ─────────────── Holdings — concentration horizon + position blotter ─────────────── */
 function HoldingsView({ lang }: { lang: Lang }) {
+  // Concentration in employer stock across the last 12 quarters — drifting from
+  // 78% (pre-IPO grants) down toward the 22% target. Demo data.
+  const horizon = [78, 76, 74, 72, 70, 66, 60, 56, 54, 48, 38, 30]
+  const horizonLabels = ['Q1 23', 'Q2', 'Q3', 'Q4', 'Q1 24', 'Q2', 'Q3', 'Q4', 'Q1 25', 'Q2', 'Q3', 'Q1 26']
+  const totalMarket = 3358000 // sum of HOLDINGS market values
   return (
     <div className="pv-stack">
-      <div className="pv-section-head">
+      <header className="pv-section-head">
+        <span className="pv-section-head__eyebrow">{t(lang, 'holdings.title')}</span>
         <h2>{t(lang, 'holdings.title')}</h2>
+        <div className="pv-section-head__rule" />
         <p>{t(lang, 'holdings.subtitle')}</p>
+      </header>
+
+      <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 12 }}>
+          <span className="pv-section-head__eyebrow" style={{ margin: 0 }}>
+            {lang === 'zh' ? '单只股票集中度走势 · 12 个季度' : 'Concentration horizon · 12 quarters'}
+          </span>
+          <span className="pv-section-head__eyebrow" style={{ margin: 0 }}>
+            {lang === 'zh' ? 'NEXA 占流动净资产 %' : '% of liquid net worth in NEXA'}
+          </span>
+        </div>
+        <HorizonChart data={horizon} labels={horizonLabels} ariaLabel="NEXA concentration over 12 quarters" />
       </div>
-      <div className="pv-propgrid">
-        {HOLDINGS.map((p, i) => (
-          <article key={i} className={`pv-propcard ${p.accent ? 'pv-propcard--accent' : ''}`}>
-            <div className="pv-propcard__monogram" aria-hidden>{p.ticker.slice(0, 4)}</div>
-            <div className="pv-propcard__body">
-              <span className={`pv-tag ${p.accent ? 'pv-tag--active' : ''}`}>{tl(lang, p.status)}</span>
-              <h3>{p.ticker}</h3>
-              <p className="pv-propcard__hood">{tl(lang, p.account)}</p>
-              <div className="pv-propcard__specs">
-                <span>{p.shares}</span><span>·</span>
-                <span>{lang === 'zh' ? '成本' : 'basis'} {p.basis}</span>
-              </div>
-              <div className="pv-propcard__price">{p.market}</div>
-              {p.role && <div className="pv-propcard__role">{tl(lang, p.role)}</div>}
-              {p.notes && <p className="pv-propcard__notes">{tl(lang, p.notes)}</p>}
-            </div>
-          </article>
-        ))}
-      </div>
+
+      <table className="pv-blotter">
+        <thead>
+          <tr>
+            <th>{lang === 'zh' ? '代码' : 'Symbol'}</th>
+            <th>{lang === 'zh' ? '账户' : 'Account'}</th>
+            <th>{lang === 'zh' ? '角色' : 'Role'}</th>
+            <th>{lang === 'zh' ? '市值' : 'Market'}</th>
+            <th>{lang === 'zh' ? '占净资产' : '% NW'}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {HOLDINGS.map((p, i) => {
+            const num = Number(p.market.replace(/[^0-9]/g, '')) || 0
+            const pct = totalMarket ? Math.round((num / totalMarket) * 100) : 0
+            return (
+              <tr key={i}>
+                <td className="pv-blotter__symbol">{p.ticker}</td>
+                <td className="pv-blotter__role">{tl(lang, p.account)}</td>
+                <td className="pv-blotter__role">{p.role ? tl(lang, p.role) : ''}</td>
+                <td className="pv-blotter__num">{p.market}</td>
+                <td className="pv-blotter__pct">
+                  {pct}%
+                  <span className="pv-blotter__bar" style={{ width: `${pct}%` }} />
+                </td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
     </div>
   )
 }
 
+/* ─────────────── Strategy — quarterly brief stack ─────────────── */
 function StrategyView({ lang }: { lang: Lang }) {
+  // Pull the strategy cards into "briefs" — dateline + headline + mono stat + body + signature.
+  const briefs = STRATEGY_CARDS.map((c, i) => ({
+    dateline: lang === 'zh'
+      ? `备忘 0${i + 1} · 2026 年 4 月`
+      : `Brief 0${i + 1} · April 2026`,
+    title: tl(lang, c.label),
+    stat: tl(lang, c.value),
+    body: tl(lang, c.sub),
+  }))
   return (
     <div className="pv-stack">
-      <div className="pv-hoodhero pv-hoodhero--strategy" aria-hidden>
-        <div className="pv-hoodhero__veil" />
-        <div className="pv-hoodhero__caption">
-          <span>{t(lang, 'strategy.title')}</span>
-          <strong>{t(lang, 'strategy.hero.caption')}</strong>
-        </div>
-      </div>
-      <div className="pv-section-head">
+      <header className="pv-section-head">
+        <span className="pv-section-head__eyebrow">{lang === 'zh' ? '投资策略' : 'Investment Strategy'}</span>
         <h2>{t(lang, 'strategy.title')}</h2>
+        <div className="pv-section-head__rule" />
         <p>{t(lang, 'strategy.subtitle')}</p>
-      </div>
-      <div className="pv-hoodstats">
-        {STRATEGY_STATS.map((s, i) => (
-          <div key={i} className="pv-hoodstat">
-            <strong>{tl(lang, s.big)}</strong>
-            <span>{tl(lang, s.small)}</span>
-          </div>
-        ))}
-      </div>
-      <div className="pv-hoodgrid">
-        {STRATEGY_CARDS.map((c, i) => (
-          <article key={i} className="pv-hoodcard">
-            <div className="pv-hoodcard__body">
-              <span className="pv-hoodcard__label">{tl(lang, c.label)}</span>
-              <strong>{tl(lang, c.value)}</strong>
-              <p>{tl(lang, c.sub)}</p>
+      </header>
+
+      <div className="pv-stat-row">
+        {STRATEGY_STATS.map((s, i) => {
+          const value = tl(lang, s.big)
+          // Stat block component is for animated numbers; here we keep the
+          // mixed strings (e.g. "70 / 30") rendered as-is in mono.
+          return (
+            <div key={i} className="pv-stat">
+              <span className="pv-stat__label">{tl(lang, s.small)}</span>
+              <span className="pv-stat__value">{value}</span>
             </div>
+          )
+        })}
+      </div>
+
+      <div className="pv-briefs">
+        {briefs.map((b, i) => (
+          <article key={i} className="pv-brief">
+            <span className="pv-brief__dateline">{b.dateline}</span>
+            <h3 className="pv-brief__title">{b.title}</h3>
+            <span className="pv-brief__stat">{b.stat}</span>
+            <p className="pv-brief__body">{b.body}</p>
+            <span className="pv-brief__sig">— Maya Sterling, CFP®</span>
           </article>
         ))}
       </div>
@@ -683,28 +714,34 @@ function StrategyView({ lang }: { lang: Lang }) {
   )
 }
 
+/* ─────────────── Schedule — calendar of letters ─────────────── */
 function ScheduleView({ lang }: { lang: Lang }) {
   return (
     <div className="pv-stack">
-      <div className="pv-section-head">
+      <header className="pv-section-head">
+        <span className="pv-section-head__eyebrow">{lang === 'zh' ? '日程' : 'Schedule'}</span>
         <h2>{t(lang, 'schedule.title')}</h2>
+        <div className="pv-section-head__rule" />
         <p>{t(lang, 'schedule.subtitle')}</p>
-      </div>
-      <ul className="pv-list">
+      </header>
+      <ul className="pv-calendar">
         {APPOINTMENTS.map((a, i) => {
-          const statusTxt = tl(lang, a.status)
           const isAction = a.status.en === 'Action needed'
+          const isOptional = a.status.en === 'Optional'
+          const chipClass = isAction
+            ? 'pv-calendar__chip pv-calendar__chip--action'
+            : isOptional
+              ? 'pv-calendar__chip'
+              : 'pv-calendar__chip pv-calendar__chip--bond'
           return (
-            <li key={i} className="pv-row">
-              <div className="pv-row__left">
-                <span className="pv-row__when">{tl(lang, a.when)}</span>
-                <strong>{tl(lang, a.title)}</strong>
-                <span className="pv-row__sub">{tl(lang, a.where)}</span>
+            <li key={i} className="pv-calendar__row">
+              <span className="pv-calendar__date">{tl(lang, a.when)}</span>
+              <div>
+                <div className="pv-calendar__title">{tl(lang, a.title)}</div>
+                <div className="pv-calendar__where">{tl(lang, a.where)}</div>
               </div>
-              <div className="pv-row__right">
-                <span className={`pv-tag ${isAction ? 'pv-tag--active' : ''}`}>{statusTxt}</span>
-                <a className="button button-secondary button-sm" href="#">{t(lang, 'addcal')}</a>
-              </div>
+              <span className={chipClass}>{tl(lang, a.status)}</span>
+              <a className="pv-calendar__action" href="#">{t(lang, 'addcal')}</a>
             </li>
           )
         })}
@@ -713,56 +750,75 @@ function ScheduleView({ lang }: { lang: Lang }) {
   )
 }
 
+/* ─────────────── Fees — quarterly statement ─────────────── */
 function FeesView({ lang }: { lang: Lang }) {
   const paid = FEES.filter(p => p.status.en === 'Paid').length
+  const totalPending = FEES
+    .filter(p => p.status.en !== 'Paid')
+    .reduce((s, f) => s + (Number(f.amount.replace(/[^0-9]/g, '')) || 0), 0)
   return (
     <div className="pv-stack">
-      <div className="pv-section-head">
+      <header className="pv-section-head">
+        <span className="pv-section-head__eyebrow">{lang === 'zh' ? '费用结算单' : 'Fee Summary Statement'}</span>
         <h2>{t(lang, 'fees.title')}</h2>
+        <div className="pv-section-head__rule" />
         <p>{paid} {t(lang, 'fees.paid')} &middot; {FEES.length - paid} {t(lang, 'fees.pending')}</p>
-      </div>
-      <ul className="pv-list">
+      </header>
+
+      <div className="pv-statement">
+        <div className="pv-statement__head">
+          <span>{lang === 'zh' ? '摘要 · 2026 Q2' : 'SUMMARY · Q2 2026'}</span>
+          <span>{lang === 'zh' ? '区间：2026-01-01 至 2026-06-30' : 'Period: Jan 1 – Jun 30, 2026'}</span>
+        </div>
         {FEES.map((p, i) => {
           const isPaid = p.status.en === 'Paid'
-          const noteStr = p.note ? tl(lang, p.note) : null
           return (
-            <li key={i} className="pv-row">
-              <div className="pv-row__left">
+            <div key={i} className="pv-statement__row">
+              <div className="pv-statement__label">
                 <strong>{tl(lang, p.label)}</strong>
-                <span className="pv-row__sub">{tl(lang, p.date)}{noteStr ? ` · ${noteStr}` : ''}</span>
+                {p.note && <span>{tl(lang, p.note)}</span>}
               </div>
-              <div className="pv-row__right">
-                <strong className="pv-row__amount">{p.amount}</strong>
-                <span className={`pv-tag ${isPaid ? '' : 'pv-tag--active'}`}>{tl(lang, p.status)}</span>
-              </div>
-            </li>
+              <span className="pv-statement__date">{tl(lang, p.date)}</span>
+              <span className={`pv-statement__amount ${isPaid ? '' : 'pv-statement__amount--pending'}`}>{p.amount}</span>
+            </div>
           )
         })}
-      </ul>
+        <div className="pv-statement__total">
+          <span>{lang === 'zh' ? '待支付合计' : 'Balance due'}</span>
+          <span>${totalPending.toLocaleString()}</span>
+        </div>
+        <p className="pv-statement__disclosure">
+          {lang === 'zh'
+            ? 'Sterling Wealth Advisors LLC · SEC RIA #312587 · 本结算单为演示数据。'
+            : 'Sterling Wealth Advisors LLC · SEC RIA #312587 · Letter dated April 2026. Statement is demo data.'}
+        </p>
+      </div>
     </div>
   )
 }
 
+/* ─────────────── Documents — file room ─────────────── */
 function DocumentsView({ lang }: { lang: Lang }) {
   return (
     <div className="pv-stack">
-      <div className="pv-section-head">
+      <header className="pv-section-head">
+        <span className="pv-section-head__eyebrow">{lang === 'zh' ? '文件柜' : 'File Room'}</span>
         <h2>{t(lang, 'documents.title')}</h2>
+        <div className="pv-section-head__rule" />
         <p>{t(lang, 'documents.subtitle')}</p>
-      </div>
-      <ul className="pv-list">
+      </header>
+
+      <ul className="pv-fileroom">
         {DOCUMENTS.map((d, i) => {
-          const updatedLabel = lang === 'zh' ? '更新于' : 'updated'
+          const pages = (tl(lang, d.kind).match(/\d+/) || ['—'])[0]
+          const rev = `rev ${(i % 4) + 1}`
           return (
-            <li key={i} className={`pv-row ${d.action ? 'pv-row--flag' : ''}`}>
-              <div className="pv-row__left">
-                <strong>{tl(lang, d.name)}</strong>
-                <span className="pv-row__sub">{tl(lang, d.kind)} · {updatedLabel} {tl(lang, d.updated)}</span>
-              </div>
-              <div className="pv-row__right">
-                <a className="button button-secondary button-sm" href="#">{t(lang, 'download')}</a>
-                {d.action && <a className="button button-primary button-sm" href="#">{t(lang, 'reviewsign')}</a>}
-              </div>
+            <li key={i} className={`pv-fileroom__row ${d.action ? 'pv-fileroom__row--action' : ''}`}>
+              <span className="pv-fileroom__pages">{pages.padStart(2, '0')}p</span>
+              <a className="pv-fileroom__title" href="#">{tl(lang, d.name)}</a>
+              <span className="pv-fileroom__filed">{tl(lang, d.updated)}</span>
+              <span className="pv-fileroom__rev">{rev}</span>
+              <a className="pv-fileroom__action" href="#">{d.action ? t(lang, 'reviewsign') : '→'}</a>
             </li>
           )
         })}
@@ -771,20 +827,36 @@ function DocumentsView({ lang }: { lang: Lang }) {
   )
 }
 
+/* ─────────────── Messages — memo thread ─────────────── */
 function MessagesView({ lang }: { lang: Lang }) {
   return (
     <div className="pv-stack">
-      <div className="pv-section-head">
+      <header className="pv-section-head">
+        <span className="pv-section-head__eyebrow">{lang === 'zh' ? '备忘往来' : 'Memo Thread'}</span>
         <h2>{t(lang, 'messages.title')}</h2>
+        <div className="pv-section-head__rule" />
         <p>{t(lang, 'messages.subtitle')}</p>
-      </div>
-      <div className="pv-thread">
-        {MESSAGES.map((m, i) => (
-          <div key={i} className={`pv-msg ${m.me ? 'pv-msg--you' : ''}`}>
-            <div className="pv-msg__head"><strong>{tl(lang, m.speaker)}</strong><span>{tl(lang, m.time)}</span></div>
-            <p>{tl(lang, m.body)}</p>
-          </div>
-        ))}
+      </header>
+
+      <div className="pv-memos">
+        {MESSAGES.map((m, i) => {
+          const dateline = lang === 'zh'
+            ? `${tl(lang, m.time)} — 来自 ${tl(lang, m.speaker)}`
+            : `${tl(lang, m.time)} PT — from ${tl(lang, m.speaker)}`
+          const body = tl(lang, m.body)
+          // Split body into lead + remainder so the first sentence renders as
+          // serif lead with a first-line indent, the rest in body sans.
+          const splitAt = body.search(/[.!?。？！]\s/)
+          const lead = splitAt > 0 ? body.slice(0, splitAt + 1) : body
+          const rest = splitAt > 0 ? body.slice(splitAt + 1).trim() : ''
+          return (
+            <article key={i} className={`pv-memo ${m.me ? 'pv-memo--you' : ''}`}>
+              <span className="pv-memo__dateline">{dateline}</span>
+              <p className="pv-memo__lead">{lead}</p>
+              {rest && <p className="pv-memo__body">{rest}</p>}
+            </article>
+          )
+        })}
       </div>
     </div>
   )
