@@ -843,7 +843,7 @@ body.portal-body {
 
 /* ─────────── Finance vertical extensions (CLO-38) ─────────── */
 
-/* Strategy hero — replaces the realtor template's neighborhood photo */
+/* Strategy hero — gradient backdrop for the Finance dashboard */
 .pv-hoodhero--strategy {
   background: linear-gradient(135deg, #1d3a30 0%, #29463a 45%, #345447 100%);
 }
